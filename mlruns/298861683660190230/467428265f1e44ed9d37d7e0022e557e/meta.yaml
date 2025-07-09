@@ -1,0 +1,14 @@
+artifact_uri: mlflow-artifacts:/298861683660190230/467428265f1e44ed9d37d7e0022e557e/artifacts
+end_time: 1752030250404
+entry_point_name: ''
+experiment_id: '298861683660190230'
+lifecycle_stage: active
+run_id: 467428265f1e44ed9d37d7e0022e557e
+run_name: final_training
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1752030250317
+status: 4
+tags: []
+user_id: nicolas

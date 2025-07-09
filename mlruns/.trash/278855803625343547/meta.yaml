@@ -1,0 +1,7 @@
+artifact_location: mlflow-artifacts:/278855803625343547
+creation_time: 1752023161380
+experiment_id: '278855803625343547'
+last_update_time: 1752024032631
+lifecycle_stage: deleted
+name: Sentiment Classification Experiment
+tags: {}

@@ -1,0 +1,14 @@
+artifact_uri: mlflow-artifacts:/594190291937171307/f287afea486f46069390d4413fc83591/artifacts
+end_time: 1752024560199
+entry_point_name: ''
+experiment_id: '594190291937171307'
+lifecycle_stage: active
+run_id: f287afea486f46069390d4413fc83591
+run_name: classification_model_comparison
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1752024549733
+status: 4
+tags: []
+user_id: nicolas

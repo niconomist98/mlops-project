@@ -1,0 +1,14 @@
+artifact_uri: mlflow-artifacts:/594190291937171307/d4deaf43e656491b87775594de4a0150/artifacts
+end_time: 1752024179437
+entry_point_name: ''
+experiment_id: '594190291937171307'
+lifecycle_stage: active
+run_id: d4deaf43e656491b87775594de4a0150
+run_name: GradientBoostingClassifier
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1752024166798
+status: 3
+tags: []
+user_id: nicolas

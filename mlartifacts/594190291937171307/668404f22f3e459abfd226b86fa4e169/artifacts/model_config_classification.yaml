@@ -1,0 +1,23 @@
+model:
+  accuracy_score: 0.4596774193548387
+  best_model: XGBClassifier
+  f1_score: 0.4185572343921514
+  feature_sets:
+    manual_selection:
+    - tweet_year
+    - tweet_month
+    - tweet_day
+    - tweet_weekday
+    - tweet_hour
+    - tweet_quarter
+    - text_length
+    - word_count
+  name: sentiment_classification_model
+  parameters:
+    learning_rate: 0.1
+    max_depth: 3
+    n_estimators: 90
+  precision_score: 0.43112338059900696
+  recall_score: 0.4596774193548387
+  roc_auc_score: 0.6339526341000021
+  target_variable: sentiment

@@ -1,0 +1,6 @@
+artifact_location: mlflow-artifacts:/298861683660190230
+creation_time: 1752030007345
+experiment_id: '298861683660190230'
+last_update_time: 1752030007345
+lifecycle_stage: active
+name: sentiment_classification_model
