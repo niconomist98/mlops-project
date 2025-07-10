@@ -31,14 +31,14 @@ jobs:
     - name : Run data processing test
       run : |
           python src/data/run_processing.py \
-            --input data/raw/house_data.csv \
-            --output data/processed/cleaned_house_data.csv
+            --input data/raw/twcs.csv \
+            --output data/processed/tws_processed.csv
 
     - name : feature engineering
       run : |
           python src/features/engineer.py   \
-            --input data/processed/cleaned_house_data.csv \
-            --output data/processed/featured_house_data.csv  \
+            --input data/processed/tws_processed.csv \
+            --output data/processed/featured_tws.csv  \
             --preprocessor models/trained/preprocessor.pkl
 
     - name : Setup mlflow
