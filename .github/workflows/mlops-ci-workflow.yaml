@@ -11,6 +11,10 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+      with:
+      |lfs: true
     - name: Checkout code
       uses: actions/checkout@v4
 
