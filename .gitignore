@@ -26,6 +26,8 @@ __pycache__/
 # Ignore system files
 .DS_Store
 Thumbs.db
+data/raw/twcs_raw.csv
+data/processed/twitter_messages_processed_v1.csv
 
 # Ignore test coverage reports
 htmlcov/
