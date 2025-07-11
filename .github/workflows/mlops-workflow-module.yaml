@@ -64,7 +64,7 @@ jobs:
   # --- Feature Engineering Job ---
   feature_engineering:
     runs-on: ubuntu-latest
-    needs: data_validation 
+    needs: data_processing 
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
