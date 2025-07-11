@@ -95,6 +95,12 @@ jobs:
         with:
           name: featured-data
           path: data/processed/
+      
+      - name: Download preprocesor
+        uses: actions/download-artifact@v4
+        with:
+          name: preprocessor
+          path: models/trained/
 
       - name: Set up Python
         uses: actions/setup-python@v5
@@ -130,7 +136,7 @@ jobs:
           docker rm mlflow-server
           docker rmi ghcr.io/mlflow/mlflow:latest
       
-      - name: Upload trained model (optional)
+      - name: Upload trained model and preprocessor (optional)
         uses: actions/upload-artifact@v4
         with:
           name: trained-model
@@ -144,7 +150,7 @@ jobs:
         uses: actions/checkout@v4
 
       # Download the trained model artifact ---
-      - name: Download trained model
+      - name: Download trained model and preprocessor
         uses: actions/download-artifact@v4
         with:
           name: trained-model 
