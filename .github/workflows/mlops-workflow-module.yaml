@@ -169,6 +169,6 @@ jobs:
         uses: docker/build-push-action@v6
         with:
           push: true
-          tags: niconomist98/fastapi:latest
+          tags: niconomist98/fastapi:v1
           context: .
           file: "Dockerfile"

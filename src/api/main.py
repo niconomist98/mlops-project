@@ -1,6 +1,6 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from inference import tweet_classificator
+from inference import tweet_classificator,batch_predict
 from schemas import SentimentClassificationRequest, PredictionResponse
 
 # Initialize FastAPI app with metadata
@@ -33,3 +33,7 @@ async def health_check():
 @app.post("/predict", response_model=PredictionResponse)
 async def predict(request: SentimentClassificationRequest):
     return tweet_classificator(request)
+# Batch prediction endpoint
+@app.post("/batch-predict", response_model=list)
+async def batch_predict_endpoint(requests: list[SentimentClassificationRequest]):
+    return batch_predict(requests)

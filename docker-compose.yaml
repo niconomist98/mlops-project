@@ -1,6 +1,6 @@
 services:
   fastapi :
-    image : niconomist98/fastapi:latest
+    image : niconomist98/fastapi:v1
     build : 
       context : .
       dockerfile : Dockerfile

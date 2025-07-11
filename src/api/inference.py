@@ -45,3 +45,32 @@ def tweet_classificator(request: SentimentClassificationRequest) -> PredictionRe
         features_importance={},
         prediction_time=datetime.now().isoformat()
     )
+
+
+def batch_predict(requests: list[SentimentClassificationRequest]) -> list[float]:
+    """
+    Perform batch predictions.
+    """
+    df = pd.DataFrame([requests.dict()])
+    df['created_at'] = pd.to_datetime(df['created_at'], utc=True)
+    # Extract date-based features
+    df['tweet_date'] = df['created_at'].dt.date
+    df['tweet_year'] = df['created_at'].dt.year
+    df['tweet_month'] = df['created_at'].dt.month
+    df['tweet_day'] = df['created_at'].dt.day
+    df['tweet_weekday'] = df['created_at'].dt.weekday  # Monday=0, Sunday=6
+    df['tweet_hour'] = df['created_at'].dt.hour
+    df['tweet_quarter'] = df['created_at'].dt.quarter
+    # Length of tweet text in characters
+    df['text_length'] = df['text'].str.len()
+
+    # Number of words in tweet text
+    df['word_count'] = df['text'].str.split().apply(len)
+
+
+    # Preprocess input data
+    processed_features = preprocessor.transform(df)
+
+    # Make predictions
+    predictions = model.predict(processed_features)
+    return predictions.tolist()
