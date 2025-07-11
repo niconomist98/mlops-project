@@ -74,6 +74,13 @@ jobs:
         with:
           name: featured-data
           path: data/processed/featured_tws.csv
+      
+
+      - name: Upload preprocessor
+        uses: actions/upload-artifact@v4
+        with:
+          name: preprocessor
+          path: models/trained/
 
   # --- Model Training Job ---
   model_training:
