@@ -54,3 +54,82 @@ Arquitectura de la solución:
 
     Detección de Problemas: CloudWatch genera alertas y notificaciones si se detectan anomalías, errores o degradación en el rendimiento del sistema o del modelo, lo que es clave para el manejo proactivo de fallos y el reentrenamiento automático.
 
+
+Propuesta de monitoreo 
+
+Esta propuesta describe una estrategia de monitoreo fundamental, diseñada para establecer una capacidad de supervisión esencial sobre un sistema de Machine Learning batch en un entorno de producción.
+
+1. Registro de Eventos (Logs) Centralizado
+
+
+    Consolidación de Logs: configurar todos los componentes del sistema (funciones AWS Lambda, AWS Glue Jobs, Amazon SageMaker Jobs, y MWAA / Apache Airflow) para que sus logs sean remitidos de manera centralizada a Amazon CloudWatch Logs.
+
+    Identificación de Fallos: El código de las aplicaciones debe ser instrumentado para emitir mensajes de error explícito conteniendo la etiqueta "ERROR" o "FAILED", cuando se detecten condiciones anómalas o interrupciones en el procesamiento. 
+
+2. Alertas Automatizadas para Fallos Críticos 
+
+La detección inmediata de interrupciones operacionales es primordial para mantener la continuidad del servicio.
+
+    Monitoreo del Estado de Ejecución: Se deben establecer alarmas sobre las métricas que reflejan el estado final de las ejecuciones de los componentes:
+
+        Para AWS Lambda (Fase de Ingesta): Configurar una alarma basada en la métrica Errors, activándose ante cualquier ocurrencia.
+
+        Para AWS Glue/EMR Jobs (Fases de Preprocesamiento e Inferencia): Establecer una alarma sobre la métrica JobRunStatus que se dispare cuando el estado sea "Failed" (Fallido).
+
+        Para Jobs de Amazon SageMaker (Fase de Entrenamiento): Configurar una alarma en la métrica TrainingJobStatus para detectar el estado "Failed" (Fallido).
+
+        Para DAGs de MWAA/Apache Airflow (Orquestación): Implementar una alarma sobre la métrica DagRunStatus que indique el estado "Failed" (Fallido) del flujo de trabajo completo.
+
+    Mecanismo de Notificación: Todas las alarmas críticas deben estar vinculadas a un tema de Amazon Simple Notification Service (SNS). Este tema enviará notificaciones directas a los canales designados para informar sobre incidentes en un periodo de tiempo reducido.
+
+    Métricas a Recopilar:
+
+        En el script de entrenamiento de SageMaker: Asegúrate de que el script reporte métricas clave como Accuracy, F1-Score, Precisión, Recall o AUC (dependiendo del tipo de problema ML) a CloudWatch Metrics al finalizar el entrenamiento.
+
+    Alerta Clave:
+
+        Degradación Post-Entrenamiento: Configurar una alarma de CloudWatch que se active si alguna de estas métricas reportadas (ej., F1-Score) cae por debajo de un umbral predefinido (por ejemplo, F1-Score < 0.85). Este umbral debe basarse en el rendimiento mínimo aceptable del modelo.
+
+    Notificación vía Amazon SNS. Esto  avisará que el nuevo modelo entrenado no cumple con los estándares mínimos, requiriendo una revisión manual antes de ser considerado para inferencia.
+
+3. Monitoreo de Degradación de Predicciones 
+
+    Métricas a Recopilar:
+
+        Distribución de Predicciones: Después de que los job de EMR/Glue generen las predicciones y las guarde en Amazon S3 , se  añade un paso adicional que calcule métricas descriptivas de estas predicciones.
+
+            Para modelos de clasificación:
+
+                Porcentaje de clases predichas: ¿Cuántas predicciones son de la Clase A, Clase B?
+
+                Media/Desviación estándar de probabilidades: Si el modelo predice probabilidades, ¿cómo se distribuyen?
+
+            Para modelos de regresión:
+
+                Media y Desviación estándar de los valores predichos.
+
+                Rango de predicciones.
+
+        Estas métricas calculadas se deben enviar a CloudWatch Metrics.
+
+    Alerta Clave:
+
+        Deriva en las Predicciones: Configura alarmas de CloudWatch que detecten cambios significativos en estas métricas de distribución de predicciones en Amazon S3 Resultados. Por ejemplo:
+
+            Si el porcentaje de una clase predicha cambia más de un X% (ej., Porcentaje_ClaseA < 0.10 o > 0.50).
+
+            Si la media de las probabilidades predichas para una clase cambia en un Y% respecto a un baseline establecido.
+
+    Acción Sugerida: Notificación vía Amazon SNS. Una deriva en las predicciones es una señal fuerte de que el modelo (o los datos de entrada) ha cambiado, y puede requerir un reentrenamiento o una investigación.
+
+4. Panel de Control Simplificado
+
+    Creación del Dashboard: Se debe establecer un panel de control único en Amazon CloudWatch Dashboards.
+
+    Métricas Esenciales de Salud: Este dashboard contendrá gráficos que representen las métricas de estado más relevantes para cada componente, tales como:
+
+        La métrica Errors para la función Lambda de ingesta.
+
+        La métrica JobRunStatus para los jobs de AWS Glue/EMR.
+
+        La métrica DagRunStatus para los DAGs de MWAA.
