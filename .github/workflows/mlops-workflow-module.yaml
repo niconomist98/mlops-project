@@ -144,6 +144,6 @@ jobs:
         uses: docker/build-push-action@v6
         with:
           push: true
-          tags: niconomist98/fastapi:${{github.sha}}
+          tags: niconomist98/fastapi:latest
           context: .
           file: "Dockerfile"
