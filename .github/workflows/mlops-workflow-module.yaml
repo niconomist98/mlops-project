@@ -123,6 +123,11 @@ jobs:
           docker rm mlflow-server
           docker rmi ghcr.io/mlflow/mlflow:latest
       
+      - name: Upload trained model (optional)
+        uses: actions/upload-artifact@v4
+        with:
+          name: trained-model
+          path: models/trained/
 
   build_and_push:
     runs-on: ubuntu-latest
