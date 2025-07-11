@@ -5,7 +5,7 @@ from schemas import SentimentClassificationRequest, PredictionResponse
 
 # Initialize FastAPI app with metadata
 app = FastAPI(
-    title="tweet classification apo",
+    title="tweet classification API",
     description=(
     ),
     version="1.0.0",
